@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Htpp\Requests\CustomerRequest;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
@@ -15,18 +16,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::all();
-
-        return view('customers.index', compact('customers'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('customers.create', compact('customers'));
+        return $customers;
     }
 
     /**
@@ -35,9 +25,9 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        $customer = new Customer();
+        $customer = new Customer;
 
         $customer->name = $request->name;
         $customer->email = $request->email;
@@ -47,41 +37,31 @@ class CustomerController extends Controller
 
         $customer->save();
 
-        return redirect()->route('customers.index');
+        return $customer;
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show($id)
     {
-        return view('customers.show', compact('customer'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        return view('customers.edit', compact('customer'));
+        $customer = Customer::find($id);
+        return $customer;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequest $request, $id)
     {
-        $customer = new Customer();
+        $customer = Customer::find($id);
 
         $customer->name = $request->name;
         $customer->email = $request->email;
@@ -91,18 +71,18 @@ class CustomerController extends Controller
 
         $customer->save();
 
-        return redirect()->route('customers.index');
+        return $customer;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Customer  $customer
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Customer $customer)
+    public function destroy($id)
     {
+        $customer = Customer::find($id);
         $customer->delete();
-        return redirect()->route('customers.index');
     }
 }
