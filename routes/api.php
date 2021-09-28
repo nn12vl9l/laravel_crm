@@ -18,6 +18,6 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::group(['middleware' => ['api']], function(){
-    Route::apiResource('customers', App\Http\Controllers\Api\CustomerController::class);
-});
+// Route::group(['middleware' => ['api']], function(){
+//     Route::apiResource('customers', App\Http\Controllers\Api\CustomerController::class);
+// });

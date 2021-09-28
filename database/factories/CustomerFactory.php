@@ -25,10 +25,10 @@ class CustomerFactory extends Factory
 
         return [
             'name' => $faker->name(),
-            'email' => $this->faker->email(),
-            'postcode' => $this->faker->postcode(),
-            'address' => $faker->city(),
-            'phoneNumber' => $this->faker->phoneNumber(),
+            'email' => $faker->email(),
+            'zipcode' => $faker->postcode(),
+            'address' => $faker->prefecture() . $faker->city() . $faker->streetAddress(),
+            'phoneNumber' => $faker->phoneNumber(),
         ];
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', '顧客一覧')
+@section('title', '編集画面')
 
 @section('content')
     <h1>編集画面</h1>
@@ -17,8 +17,8 @@
             <input type="text" name='email' value="{{ old('email', $customer->email) }}">
         </p>
         <p>
-            <label for="postcode">郵便番号</label>
-            <input type="text" name='postcode' value="{{ old('postcode', $customer->postcode) }}">
+            <label for="zipcode">郵便番号</label>
+            <input type="text" name='zipcode' value="{{ old('zipcode', $customer->zipcode) }}">
         </p>
         <p>
             <label for="address">住所</label>

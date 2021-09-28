@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
 use App\Models\Customer;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -24,9 +26,31 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('customers.create', compact('customers'));
+        $method = "GET";
+        $zipcode = $request->input('zipcode');
+        $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' . $zipcode;
+        $options = [];
+
+        $client = new Client();
+
+        try {
+            $response = $client->request($method, $url, $options);
+            $body = $response->getBody();
+            $customer = json_decode($body, false);
+            $results = $customer->result[0];
+            $address = $results->address1 . $results->address2 . $results->address3;
+        } catch(\Throwable $th) {
+            return back();
+        }
+
+        return view('customers.create', compact('zipcode', 'address'));
+    }
+
+    public function zipcode()
+    {
+        return view('customers.zipcode');
     }
 
     /**
@@ -41,7 +65,7 @@ class CustomerController extends Controller
 
         $customer->name = $request->name;
         $customer->email = $request->email;
-        $customer->postcode = $request->postcode;
+        $customer->postcode = $request->zipcode;
         $customer->address = $request->address;
         $customer->phoneNumber = $request->phoneNumber;
 
@@ -79,19 +103,19 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, $id)
     {
-        $customer = new Customer();
+        $customer = Customer::find($id);
 
         $customer->name = $request->name;
         $customer->email = $request->email;
-        $customer->postcode = $request->postcode;
+        $customer->zipcode = $request->zipcode;
         $customer->address = $request->address;
         $customer->phoneNumber = $request->phoneNumber;
 
         $customer->save();
 
-        return redirect()->route('customers.index');
+        return redirect('customers');
     }
 
     /**

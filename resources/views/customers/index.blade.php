@@ -15,15 +15,15 @@
         </tr>
         @foreach ($customers as $customer)
             <tr>
-                <td><a href="/customers/{{ $customer->id }}">{{ $customer->id }}</a></td>
+                <td><a href="/customers/{{ $customer->id }}">{{ $customer->id }}</td>
                 <td>{{ $customer->name }}</td>
                 <td>{{ $customer->email }}</td>
-                <td>{{ $customer->postcode }}</td>
+                <td>{{ $customer->zipcode }}</td>
                 <td>{{ $customer->address }}</td>
                 <td>{{ $customer->phoneNumber }}</td>
             </tr>
 
         @endforeach
     </table>
-    <button onclick="location.href='/customers/create'">新規登録</button>
+    <button onclick="location.href='{{ route('customers.zipcode') }}'">新規登録</button>
 @endsection

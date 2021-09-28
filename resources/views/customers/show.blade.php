@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('title', '顧客一覧')
+@section('title', '顧客詳細画面')
 
 @section('content')
     <h1>顧客詳細画面</h1>
@@ -17,7 +17,7 @@
         <td>{{ $customer->id }}</td>
         <td>{{ $customer->name }}</td>
         <td>{{ $customer->email }}</td>
-        <td>{{ $customer->postcode }}</td>
+        <td>{{ $customer->zipcode }}</td>
         <td>{{ $customer->address }}</td>
         <td>{{ $customer->phoneNumber }}</td>
         </tr>
