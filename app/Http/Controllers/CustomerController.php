@@ -21,7 +21,7 @@ class CustomerController extends Controller
         return view('customers.index', compact('customers'));
     }
 
-    /**
+    /*
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -29,7 +29,7 @@ class CustomerController extends Controller
     public function create(Request $request)
     {
         $method = "GET";
-        $zipcode = $request->input('zipcode');
+        $zipcode = $request->zipcode;
         $url = 'https://zipcloud.ibsnet.co.jp/api/search?zipcode=' . $zipcode;
         $options = [];
 
@@ -38,14 +38,16 @@ class CustomerController extends Controller
         try {
             $response = $client->request($method, $url, $options);
             $body = $response->getBody();
-            $customer = json_decode($body, false);
-            $results = $customer->result[0];
+            $customers = json_decode($body, false);
+            $results = $customers->results[0];
             $address = $results->address1 . $results->address2 . $results->address3;
-        } catch(\Throwable $th) {
-            return back();
+        } catch (\Throwable $th) {
+            // dd($th);
+            $customers = null;
+            $address = null;
         }
 
-        return view('customers.create', compact('zipcode', 'address'));
+        return view('customers.create')->with(compact('zipcode', 'address'));
     }
 
     public function zipcode()
@@ -59,13 +61,13 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
         $customer = new Customer();
 
         $customer->name = $request->name;
         $customer->email = $request->email;
-        $customer->postcode = $request->zipcode;
+        $customer->zipcode = $request->zipcode;
         $customer->address = $request->address;
         $customer->phoneNumber = $request->phoneNumber;
 
@@ -103,9 +105,9 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-        $customer = Customer::find($id);
+        // $customer = Customer::find($id);
 
         $customer->name = $request->name;
         $customer->email = $request->email;
@@ -115,7 +117,7 @@ class CustomerController extends Controller
 
         $customer->save();
 
-        return redirect('customers');
+        return redirect()->route('customers.index');
     }
 
     /**

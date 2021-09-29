@@ -4,7 +4,19 @@
 
 @section('content')
     <h1>編集画面</h1>
-    <form action="/customers/{{ $customer->id }}" method="post">
+    @if ($errors->any())
+        <div class="error">
+            <p>
+                <b>{{ count($errors) }}件のエラーがあります。</b>
+            </p>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form action="{{ route('customers.update', $customer) }}" method="post">
         @csrf
         @method('PATCH')
 
@@ -28,9 +40,7 @@
             <label for="phoneNumber">電話番号</label>
             <input type="text" name='phoneNumber' value="{{ old('phoneNumber', $customer->phoneNumber) }}">
         </p>
-        <div class="button-group">
-            <input type="submit" value="更新">
-            <button onclick="location.href='/customers/{{ $customer->id }}'">戻る</button>
-        </div>
+        <input type="submit" value="更新">
     </form>
+    <button onclick="location.href='{{ route('customers.show', $customer) }}'">戻る</button>
 @endsection
