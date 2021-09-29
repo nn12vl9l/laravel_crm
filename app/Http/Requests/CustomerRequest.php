@@ -26,9 +26,9 @@ class CustomerRequest extends FormRequest
         return [
             'name' => 'required|string|max:50',
             'email' => 'required|string|email:rfc',
-            'zipcode' => 'required|string',
+            'zipcode' => 'required|string|max:7',
             'address' => 'required|string',
-            'phoneNumber' => 'required|string'
+            'phone_number' => 'required|string|max:11'
         ];
     }
 }

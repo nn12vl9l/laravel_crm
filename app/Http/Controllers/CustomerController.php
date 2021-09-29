@@ -42,7 +42,6 @@ class CustomerController extends Controller
             $results = $customers->results[0];
             $address = $results->address1 . $results->address2 . $results->address3;
         } catch (\Throwable $th) {
-            // dd($th);
             $customers = null;
             $address = null;
         }
@@ -69,7 +68,7 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->zipcode = $request->zipcode;
         $customer->address = $request->address;
-        $customer->phoneNumber = $request->phoneNumber;
+        $customer->phone_number = $request->phone_number;
 
         $customer->save();
 
@@ -113,7 +112,7 @@ class CustomerController extends Controller
         $customer->email = $request->email;
         $customer->zipcode = $request->zipcode;
         $customer->address = $request->address;
-        $customer->phoneNumber = $request->phoneNumber;
+        $customer->phone_number = $request->phone_number;
 
         $customer->save();
 

@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('email');
             $table->integer('zipcode');
             $table->string('address');
-            $table->string('phoneNumber');
+            $table->string('phone_number');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -37,8 +37,8 @@
             <textarea type="text" name="address">{{ old('address', $customer->address) }}</textarea>
         </p>
         <p>
-            <label for="phoneNumber">電話番号</label>
-            <input type="text" name='phoneNumber' value="{{ old('phoneNumber', $customer->phoneNumber) }}">
+            <label for="phone_number">電話番号</label>
+            <input type="text" name='phone_number' value="{{ old('phone_number', $customer->phone_number) }}">
         </p>
         <input type="submit" value="更新">
     </form>

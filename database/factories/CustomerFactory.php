@@ -28,7 +28,7 @@ class CustomerFactory extends Factory
             'email' => $faker->email(),
             'zipcode' => $faker->postcode(),
             'address' => $faker->prefecture() . $faker->city() . $faker->streetAddress(),
-            'phoneNumber' => $faker->phoneNumber(),
+            'phone_number' => $faker->phone_number(),
         ];
     }
 }
